@@ -2,7 +2,10 @@
 Views for the user api
 """
 from rest_framework import generics
-from user.serializers import UserSerializer
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.settings import api_settings
+
+from user.serializers import (UserSerializer, AuthTokenSerializer)
 
 class CreateUserView(generics.CreateAPIView):
     """Create a new user in the system"""
@@ -10,3 +13,8 @@ class CreateUserView(generics.CreateAPIView):
     # The CreateAPIView handles the post req mechanism. We just need to define the serializer
     # The serializer will defines which model we want to create the object instance in
     serializer_class = UserSerializer
+
+class CreateTokenView(ObtainAuthToken):
+    """Create a new auth token for user"""
+    serializer_class = AuthTokenSerializer
+    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES # OPTIONAL
