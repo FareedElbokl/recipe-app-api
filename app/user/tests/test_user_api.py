@@ -126,15 +126,15 @@ class PrivateUserApiTest(TestCase):
         self.client = APIClient()
         self.client.force_authenticate(user=self.user) # authenticate as the self.user we just created
 
-    def test_retrieve_user_profile(self):
+    def test_retrieve_profile_success(self):
         """Test retreiving the profile for a logged in user"""
 
         res = self.client.get(ME_URL)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, {
-            "email": "test@example.com",
-            "password": "testpass123"
+            "name": self.user.name,
+            "email": self.user.email
         })
 
     def test_post_me_not_allowed(self):
